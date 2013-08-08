@@ -80,36 +80,36 @@ puts ""
 
 # Player's turn 
 if playertotal == 21 
-  puts "Congratulations, you hit the blackjack! You win!"
+  puts "Congratulations #{player}, you hit the blackjack! You win!"
   exit
 end 
  
 while playertotal < 21 
-  puts "What would you like to do? 1) hit 2) stay"
+  puts "What would you like to do #{player}? 1) hit 2) stay"
   hit_or_stay = gets.chomp
   
   if !['1','2'].include?(hit_or_stay)
-    puts "You can only enter 1 or 2"
+    puts "#{player} can only enter 1 or 2"
     next
   end 
   
   if hit_or_stay == "2"
-    puts "Allright, let's roll"
+    puts "Allright #{player}, let's roll"
     break
   end 
   
   #if the player chooses hit 
   new_card = deck.pop 
   puts "Dealing card to player: #{new_card}"
-  mycards << new_card 
-  mytotal = calculate_total(mycards)
-  puts "Your total is now: @{playertotal}"
+  playercards << new_card 
+  playertotal = calculate_total(playercards)
+  puts "Your total is now: #{playertotal}"
   
   if playertotal == 21 
-    puts "Congratulations, you hit blackjack! You win!"
+    puts "Congratulations #{player}, you hit blackjack! You win!"
     exit 
   elsif playertotal > 21 
-    puts "Sorry, you're over 21. Busted!"
+    puts "Sorry #{player}, you're over 21. Busted!"
     exit
   end 
 end 
@@ -130,10 +130,10 @@ while dealertotal < 17
   puts "Dealer total is now: #{dealertotal}"
   
   if dealertotal == 21 
-    puts "Sorry, dealer hit blackjack. You lose."
+    puts "Sorry #{player}, dealer hit blackjack. You lose."
     exit 
   elsif dealertotal > 21 
-    puts "Congratulations, dealer busted! You win the game!"
+    puts "Congratulations #{player}, dealer busted! You win the game!"
     exit 
   end 
 end 
@@ -147,7 +147,7 @@ end
 puts ""
 
 puts "Your cards: "
-mycards.each do |card|
+playercards.each do |card|
   puts "=> #{card}"
 end 
 puts ""
@@ -155,7 +155,7 @@ puts ""
 if dealertotal > playertotal 
   puts "Dealer wins"
 elsif playertotal > dealertotal
-  puts "Congrats, you win the game!"
+  puts "Congrats #{player}, you win the game!"
 else 
   puts "It's a tie"
 end 

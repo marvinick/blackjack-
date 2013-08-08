@@ -78,26 +78,90 @@ puts "Dealer has: #{dealercards[0]} and #{dealercards[1]}, for a total of: #{dea
 puts "And you,#{player},have: #{playercards[0]} and #{playercards[1]}, for a total of: #{playertotal}"
 puts ""
 
-# Repeat 
-begin 
-puts "What's next? 1)Hit or 2)stay"
-hit_or_stay = gets.chomp
-end while !['1','2'].include?(hit_or_stay)
-
-if hit_or_stay == '1'
-   p calculate_total(playercards)
-elsif hit_or_stay == '2'
-   p calculate_total(dealercards)
+# Player's turn 
+if playertotal == 21 
+  puts "Congratulations, you hit the blackjack! You win!"
+  exit
+end 
+ 
+while playertotal < 21 
+  puts "What would you like to do? 1) hit 2) stay"
+  hit_or_stay = gets.chomp
+  
+  if !['1','2'].include?(hit_or_stay)
+    puts "You can only enter 1 or 2"
+    next
+  end 
+  
+  if hit_or_stay == "2"
+    puts "Allright, let's roll"
+    break
+  end 
+  
+  #if the player chooses hit 
+  new_card = deck.pop 
+  puts "Dealing card to player: #{new_card}"
+  mycards << new_card 
+  mytotal = calculate_total(mycards)
+  puts "Your total is now: @{playertotal}"
+  
+  if playertotal == 21 
+    puts "Congratulations, you hit blackjack! You win!"
+    exit 
+  elsif playertotal > 21 
+    puts "Sorry, you're over 21. Busted!"
+    exit
+  end 
 end 
 
-puts "Do you still want to play?"
-answer = gets.chomp 
+#Dealer's turn 
 
-if answer.downcase == "no"
-  puts "Goodbye"
+if dealertotal == 21 
+  puts "Sorry, dealer beat you to it. You lose"
+  exit 
+end 
+
+while dealertotal < 17 
+  #hit 
+  new_card = deck.pop 
+  puts "Dealing new card for dealer: #{new_card}"
+  dealercards << new_card 
+  dealertotal = calculate_total(dealercards)
+  puts "Dealer total is now: #{dealertotal}"
+  
+  if dealertotal == 21 
+    puts "Sorry, dealer hit blackjack. You lose."
+    exit 
+  elsif dealertotal > 21 
+    puts "Congratulations, dealer busted! You win the game!"
+    exit 
+  end 
+end 
+
+#Compare hands 
+
+puts "Dealer's cards: "
+dealercards.each do |card|
+  puts "=> #{card}"
+end 
+puts ""
+
+puts "Your cards: "
+mycards.each do |card|
+  puts "=> #{card}"
+end 
+puts ""
+
+if dealertotal > playertotal 
+  puts "Dealer wins"
+elsif playertotal > dealertotal
+  puts "Congrats, you win the game!"
 else 
-  puts "Goodbye anyway"
+  puts "It's a tie"
 end 
+  
+exit 
+
 
 
 
